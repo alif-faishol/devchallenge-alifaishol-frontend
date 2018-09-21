@@ -123,6 +123,7 @@ class PaginatedTable extends React.Component {
 
     const {
       classes,
+      title,
     } = this.props
 
     return (
@@ -133,13 +134,15 @@ class PaginatedTable extends React.Component {
       >
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell colSpan={this.keys.length} classes={{ root: classes.TCRoot }}>
-                <Typography variant="title">
-                  Queue All Project
-                </Typography>
-              </TableCell>
-            </TableRow>
+            {title && (
+              <TableRow>
+                <TableCell colSpan={this.keys.length} classes={{ root: classes.TCRoot }}>
+                  <Typography variant="title">
+                    {title}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            )}
             <TableRow>
               {this.keys.map((key, i) => (
                 <TableCell

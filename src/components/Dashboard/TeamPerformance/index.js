@@ -14,6 +14,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 
 import Loading from 'components/Loading'
+import PaginatedTable from 'components/PaginatedTable'
 import DashboardContainer from 'components/Dashboard/DashboardContainer'
 
 const InfoText = ({ title, content }) => (
@@ -68,6 +69,15 @@ class TeamPerformance extends React.Component {
     const activeSprint = item
       .sprint
       .filter(sprint => sprint.state === 'active')[0]
+    const members = []
+    Object.keys(item.roles).forEach((key) => {
+      item.roles[key].forEach((role) => {
+        members.push({
+          ...role,
+          stream: key,
+        })
+      })
+    })
 
     return {
       id: item.id,
@@ -83,8 +93,17 @@ class TeamPerformance extends React.Component {
           endDate: activeSprint.endDate,
         })
         : null,
+      members,
     }
   }
+
+  prepareMembersRow = members => (
+    members.map((member, i) => ({
+      No: i + 1,
+      Nama: member.name,
+      Stream: member.stream,
+    }))
+  )
 
   render() {
     const {
@@ -115,99 +134,129 @@ class TeamPerformance extends React.Component {
             className={classes.paper}
           >
             <CardContent>
-              <Typography
-                variant="title"
-                style={{
-                  marginBottom: 25,
-                }}
+              <Grid
+                container
+                justify="space-between"
               >
-                Project
-                <Button
-                  variant="outlined"
+                <div
                   style={{
-                    marginLeft: 25,
-                  }}
-                  color="primary"
-                  onClick={({ currentTarget }) => {
-                    this.setState({
-                      anchorEl: currentTarget,
-                    })
+                    flex: '1 0 410px',
                   }}
                 >
-                  {selectedProject === null
-                    ? 'Select a Project'
-                    : selectedProject.name
-                  }
-                  <Icon>
-                    arrow_drop_down
-                  </Icon>
-                </Button>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={anchorEl !== null}
-                  onClose={() => {
-                    this.setState({
-                      anchorEl: null,
-                    })
-                  }}
-                >
-                  <MenuItem onClick={() => {
-                    this.setState({
-                      selectedProject: null,
-                      anchorEl: null,
-                    })
-                  }}
-                >
-                  Select Project
-                </MenuItem>
-                  {projects.map(project => (
-                    <MenuItem
-                      key={project.id}
-                      onClick={() => {
+                  <Typography
+                    variant="title"
+                    style={{
+                      marginBottom: 25,
+                    }}
+                  >
+                    Project
+                    <Button
+                      variant="outlined"
+                      style={{
+                        marginLeft: 25,
+                      }}
+                      color="primary"
+                      onClick={({ currentTarget }) => {
                         this.setState({
-                          selectedProject: this.getProjectById(project.id, projects),
+                          anchorEl: currentTarget,
+                        })
+                      }}
+                    >
+                      {selectedProject === null
+                        ? 'Select a Project'
+                        : selectedProject.name
+                      }
+                      <Icon>
+                        arrow_drop_down
+                      </Icon>
+                    </Button>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={anchorEl !== null}
+                      onClose={() => {
+                        this.setState({
                           anchorEl: null,
                         })
                       }}
                     >
-                      {project.name}
+                      <MenuItem onClick={() => {
+                        this.setState({
+                          selectedProject: null,
+                          anchorEl: null,
+                        })
+                      }}
+                    >
+                      Select Project
                     </MenuItem>
-                  ))}
-                </Menu>
-              </Typography>
-              <Grid
-                container
-                direction="column"
+                    {projects.map(project => (
+                      <MenuItem
+                        key={project.id}
+                        onClick={() => {
+                          this.setState({
+                            selectedProject: this.getProjectById(project.id, projects),
+                            anchorEl: null,
+                          })
+                        }}
+                      >
+                        {project.name}
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Typography>
+                <Grid
+                  container
+                  direction="column"
+                >
+                  <InfoText
+                    title="Description"
+                    content={selectedProject
+                      ? selectedProject.description
+                      : 'Select a project first'
+                    }
+                  />
+                  <InfoText
+                    title="Stakeholder"
+                    content={selectedProject
+                      ? selectedProject.stakeholder
+                      : 'Select a project first'
+                    }
+                  />
+                  <InfoText
+                    title="Active Sprint"
+                    content={selectedProject
+                      ? (selectedProject.activeSprint
+                        ? selectedProject.activeSprint.name
+                        : 'No Active Sprint'
+                      )
+                      : 'Select a project first'
+                    }
+                  />
+                </Grid>
+              </div>
+              <div
+                style={{
+                  flex: '1 0 450px',
+                }}
               >
-                <InfoText
-                  title="Description"
-                  content={selectedProject
-                    ? selectedProject.description
-                    : 'Select a project first'
-                  }
-                />
-                <InfoText
-                  title="Stakeholder"
-                  content={selectedProject
-                    ? selectedProject.stakeholder
-                    : 'Select a project first'
-                  }
-                />
-                <InfoText
-                  title="Active Sprint"
-                  content={selectedProject
-                    ? (selectedProject.activeSprint
-                      ? selectedProject.activeSprint.name
-                      : 'No Active Sprint'
+                {selectedProject
+                    && selectedProject.members
+                    && (
+                      <Paper
+                        elevation={3}
+                      >
+                        <PaginatedTable
+                          title="Member"
+                          data={this.prepareMembersRow(selectedProject.members)}
+                        />
+                      </Paper>
                     )
-                    : 'Select a project first'
-                  }
-                />
-              </Grid>
-            </CardContent>
-          </Paper>
-        </Grid>
-      </DashboardContainer>
+                }
+              </div>
+            </Grid>
+          </CardContent>
+        </Paper>
+      </Grid>
+    </DashboardContainer>
     )
   }
 }

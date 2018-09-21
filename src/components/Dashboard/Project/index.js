@@ -63,7 +63,10 @@ class Project extends React.Component {
             elevation={1}
             className={classes.paper}
           >
-            <PaginatedTable data={this.createTableData(projects)} />
+            <PaginatedTable
+              title="All Project Queue"
+              data={this.createTableData(projects)}
+            />
           </Paper>
         </Grid>
       </DashboardContainer>
