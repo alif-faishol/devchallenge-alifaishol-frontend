@@ -1,18 +1,25 @@
-import axios from 'axios'
+import corsProxy from 'api/corsProxy'
 
-const jiraURL = process.env.JIRA_API
+const baseURL = process.env.REACT_APP_JIRA_API
 
 export const loginApi = (username, password) => (
-  axios.post(
-    `${jiraURL}/rest/auth/1/session`,
+  corsProxy.post(
+    `${baseURL}/rest/auth/1/session`,
     { username, password },
   )
     .then(({ data }) => {
-      if (data.error) {
-        throw new Error(data.errorMessages[0])
-      } else {
-        return data
+      if ('errors' in data) {
+        throw new Error(data.errorMessages)
       }
+    })
+    .then(() => (
+      corsProxy.get(`${baseURL}/rest/api/2/myself`)
+    ))
+    .then(({ data }) => {
+      if ('errors' in data) {
+        throw new Error(data.errorMessages)
+      }
+      return data
     })
 )
 

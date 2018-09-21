@@ -12,7 +12,7 @@ const LOGIN_USER = reduxAsyncTypes('telkomcodex/auth/LOGIN_USER')
 const reducer = (state = {
   loggedIn: false,
   isLogingIn: false,
-  isError: null,
+  error: null,
   userData: null,
 }, action = {}) => {
   switch (action.type) {
@@ -25,14 +25,16 @@ const reducer = (state = {
       return {
         ...state,
         isLogingIn: false,
-        isError: null,
+        loggedIn: true,
+        error: null,
         userData: action.payload,
       }
     case LOGIN_USER.ERROR:
       return {
         ...state,
+        loggedIn: false,
         isLogingIn: false,
-        isError: action.payload,
+        error: action.payload,
       }
     default:
       return state
@@ -47,10 +49,10 @@ export const login = (username, password) => ({
 function* loginSaga(action) {
   try {
     const { username, password } = action.payload
-    const response = yield call(loginApi(username, password))
+    const response = yield call(() => loginApi(username, password))
     yield put({ type: LOGIN_USER.SUCCESS, payload: response })
   } catch (e) {
-    yield put({ type: LOGIN_USER.FAILED, payload: e })
+    yield put({ type: LOGIN_USER.ERROR, payload: e })
   }
 }
 
