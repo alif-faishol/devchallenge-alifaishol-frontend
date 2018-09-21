@@ -76,11 +76,13 @@ class TeamPerformance extends React.Component {
         : item.description,
       name: item.name,
       stakeholder: item.lead.name,
-      activeSprint: activeSprint && ({
-        name: activeSprint.name,
-        startDate: activeSprint.startDate,
-        endDate: activeSprint.endDate,
-      }),
+      activeSprint: activeSprint
+        ? ({
+          name: activeSprint.name,
+          startDate: activeSprint.startDate,
+          endDate: activeSprint.endDate,
+        })
+        : null,
     }
   }
 
@@ -194,7 +196,10 @@ class TeamPerformance extends React.Component {
                 <InfoText
                   title="Active Sprint"
                   content={selectedProject
-                    ? selectedProject.activeSprint.name
+                    ? (selectedProject.activeSprint
+                      ? selectedProject.activeSprint.name
+                      : 'No Active Sprint'
+                    )
                     : 'Select a project first'
                   }
                 />
