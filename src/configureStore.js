@@ -4,8 +4,12 @@ import {
   compose,
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { createBrowserHistory } from 'history'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 
 import { rootReducer, rootSaga } from 'state'
+
+export const history = createBrowserHistory()
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhanchers = (process.env.NODE_ENV === 'development'
@@ -16,8 +20,11 @@ const composeEnhanchers = (process.env.NODE_ENV === 'development'
 const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(
-  rootReducer,
+  connectRouter(history)(rootReducer),
   composeEnhanchers(
+    applyMiddleware(
+      routerMiddleware(history),
+    ),
     applyMiddleware(sagaMiddleware),
   ),
 )
