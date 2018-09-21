@@ -28,7 +28,7 @@ const styles = theme => ({
     minHeight: '100%',
     paddingTop: 50,
     paddingBottom: 50,
-    backgroundColor: theme.palette.background,
+    backgroundColor: theme.palette.background.secondary,
   },
   content: {
     backgroundColor: 'white',

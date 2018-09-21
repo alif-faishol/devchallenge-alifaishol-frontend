@@ -21,11 +21,11 @@ const styles = theme => ({
   '@keyframes fadeIn': {
     from: {
       opacity: 0,
-      bottom: -10,
+      left: -10,
     },
     to: {
       opacity: 1,
-      bottom: 0,
+      left: 0,
     },
   },
   drawer: {
@@ -66,7 +66,7 @@ const DashboardContainer = ({
         </ListItem>
         <ListItem
           button
-          onClick={() => { history.push('/project') }}
+          onClick={() => { history.push('/dashboard/project') }}
           selected={activeMenu === 'project'}
           classes={{
             selected: classes.selectedMenu,
@@ -76,7 +76,7 @@ const DashboardContainer = ({
         </ListItem>
         <ListItem
           button
-          onClick={() => { history.push('/team-performance') }}
+          onClick={() => { history.push('/dashboard/team-performance') }}
           selected={activeMenu === 'team-performance'}
           classes={{
             selected: classes.selectedMenu,
@@ -86,7 +86,7 @@ const DashboardContainer = ({
         </ListItem>
         <ListItem
           button
-          onClick={() => { history.push('/calendar') }}
+          onClick={() => { history.push('/dashboard/calendar') }}
           selected={activeMenu === 'calendar'}
           classes={{
             selected: classes.selectedMenu,

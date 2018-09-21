@@ -11,11 +11,11 @@ import configureStore from 'configureStore'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#53b9ec',
-      contrastText: '#fff',
+      main: '#53B9EC',
+      contrastText: '#FFF',
     },
     secondary: {
-      main: '#f55151',
+      main: '#F55151',
     },
     divider: '#DEE3ED',
     background: {
