@@ -31,3 +31,5 @@ $ yarn install
 ```
 $ yarn start
 ```
+
+Note: Username dan password adalah yang digunakan untuk login JIRA.

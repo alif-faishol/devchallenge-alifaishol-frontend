@@ -15,13 +15,16 @@ const styles = theme => ({
     width: '100%',
     minHeight: '100%',
     display: 'flex',
-    position: 'relative',
+  },
+  childrenContainer: {
+    flexGrow: 1,
     animation: 'fadeIn 0.3s ease-out',
+    position: 'relative',
   },
   '@keyframes fadeIn': {
     from: {
       opacity: 0,
-      left: -10,
+      left: -20,
     },
     to: {
       opacity: 1,
@@ -96,7 +99,7 @@ const DashboardContainer = ({
         </ListItem>
       </List>
     </Drawer>
-    <div style={{ flexGrow: 1 }}>
+    <div className={ classes.childrenContainer }>
       {children}
     </div>
   </div>

@@ -8,12 +8,9 @@ import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import Input from '@material-ui/core/Input'
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
-import InputLabel from '@material-ui/core/InputLabel'
-import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 
 import Loading from 'components/Loading'
@@ -67,18 +64,18 @@ class TeamPerformance extends React.Component {
   }
 
   getProjectById = (id, data) => {
-    const project = data.filter(project => project.id === id)[0]
-    const activeSprint = project
+    const item = data.filter(child => child.id === id)[0]
+    const activeSprint = item
       .sprint
       .filter(sprint => sprint.state === 'active')[0]
 
     return {
-      id: project.id,
-      description: project.description === ''
+      id: item.id,
+      description: item.description === ''
         ? 'No Description'
-        : project.description,
-      name: project.name,
-      stakeholder: project.lead.name,
+        : item.description,
+      name: item.name,
+      stakeholder: item.lead.name,
       activeSprint: activeSprint && ({
         name: activeSprint.name,
         startDate: activeSprint.startDate,
