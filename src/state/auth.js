@@ -3,6 +3,7 @@ import {
   put,
   call,
 } from 'redux-saga/effects'
+import { push } from 'connected-react-router'
 
 import reduxAsyncTypes from 'helpers/reduxAsyncTypes'
 import { loginApi } from 'api/auth'
@@ -51,6 +52,7 @@ function* loginSaga(action) {
     const { username, password } = action.payload
     const response = yield call(() => loginApi(username, password))
     yield put({ type: LOGIN_USER.SUCCESS, payload: response })
+    yield put(push('/dashboard'))
   } catch (e) {
     yield put({ type: LOGIN_USER.ERROR, payload: e })
   }

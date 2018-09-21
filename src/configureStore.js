@@ -9,7 +9,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router'
 
 import { rootReducer, rootSaga } from 'state'
 
-export const history = createBrowserHistory()
+const history = createBrowserHistory()
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhanchers = (process.env.NODE_ENV === 'development'
@@ -24,11 +24,14 @@ const store = createStore(
   composeEnhanchers(
     applyMiddleware(
       routerMiddleware(history),
+      sagaMiddleware,
     ),
-    applyMiddleware(sagaMiddleware),
   ),
 )
 
 sagaMiddleware.run(rootSaga)
 
-export default store
+export default {
+  history,
+  store,
+}
