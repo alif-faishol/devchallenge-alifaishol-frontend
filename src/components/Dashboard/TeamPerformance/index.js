@@ -9,6 +9,9 @@ import Grid from '@material-ui/core/Grid'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Input from '@material-ui/core/Input'
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
 import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -49,8 +52,8 @@ const styles = theme => ({
 
 class TeamPerformance extends React.Component {
   state = {
-    selectedProject: '',
-    open: false,
+    selectedProject: null,
+    anchorEl: null,
   }
 
   componentDidMount() {
@@ -63,23 +66,26 @@ class TeamPerformance extends React.Component {
     }
   }
 
-  prepareData = data => data.map((item) => {
-    const activeSprint = item
+  getProjectById = (id, data) => {
+    const project = data.filter(project => project.id === id)[0]
+    const activeSprint = project
       .sprint
       .filter(sprint => sprint.state === 'active')[0]
 
     return {
-      id: item.id,
-      description: item.description,
-      name: item.name,
-      stakeholder: item.lead.name,
+      id: project.id,
+      description: project.description === ''
+        ? 'No Description'
+        : project.description,
+      name: project.name,
+      stakeholder: project.lead.name,
       activeSprint: activeSprint && ({
         name: activeSprint.name,
         startDate: activeSprint.startDate,
         endDate: activeSprint.endDate,
       }),
     }
-  })
+  }
 
   render() {
     const {
@@ -87,6 +93,11 @@ class TeamPerformance extends React.Component {
       projects,
       isLoading,
     } = this.props
+
+    const {
+      selectedProject,
+      anchorEl,
+    } = this.state
 
     if (projects === null
       || (projects.length && projects.length < 0)
@@ -107,38 +118,89 @@ class TeamPerformance extends React.Component {
             <CardContent>
               <Typography
                 variant="title"
+                style={{
+                  marginBottom: 25,
+                }}
               >
                 Project
-                <InputLabel htmlFor="select-project">Select Project</InputLabel>
-                <Select
-                  inputProps={{
-                    id: 'select-project',
+                <Button
+                  variant="outlined"
+                  style={{
+                    marginLeft: 25,
                   }}
-                  value={this.state.selectedProject}
-                  onChange={({ target }) => {
+                  color="primary"
+                  onClick={({ currentTarget }) => {
                     this.setState({
-                      selectedProject: target.value,
+                      anchorEl: currentTarget,
                     })
                   }}
                 >
-                  <MenuItem value="">Select Project</MenuItem>
+                  {selectedProject === null
+                    ? 'Select a Project'
+                    : selectedProject.name
+                  }
+                  <Icon>
+                    arrow_drop_down
+                  </Icon>
+                </Button>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={anchorEl !== null}
+                  onClose={() => {
+                    this.setState({
+                      anchorEl: null,
+                    })
+                  }}
+                >
+                  <MenuItem onClick={() => {
+                    this.setState({
+                      selectedProject: null,
+                      anchorEl: null,
+                    })
+                  }}
+                >
+                  Select Project
+                </MenuItem>
                   {projects.map(project => (
                     <MenuItem
                       key={project.id}
-                      value={project.id}
+                      onClick={() => {
+                        this.setState({
+                          selectedProject: this.getProjectById(project.id, projects),
+                          anchorEl: null,
+                        })
+                      }}
                     >
                       {project.name}
                     </MenuItem>
                   ))}
-                </Select>
+                </Menu>
               </Typography>
               <Grid
                 container
                 direction="column"
               >
-                <InfoText title="Description" content="uwu" />
-                <InfoText title="Stackholder" content="uwu" />
-                <InfoText title="Active Sprint" content="uwu" />
+                <InfoText
+                  title="Description"
+                  content={selectedProject
+                    ? selectedProject.description
+                    : 'Select a project first'
+                  }
+                />
+                <InfoText
+                  title="Stakeholder"
+                  content={selectedProject
+                    ? selectedProject.stakeholder
+                    : 'Select a project first'
+                  }
+                />
+                <InfoText
+                  title="Active Sprint"
+                  content={selectedProject
+                    ? selectedProject.activeSprint.name
+                    : 'Select a project first'
+                  }
+                />
               </Grid>
             </CardContent>
           </Paper>
