@@ -28,7 +28,20 @@ const get = url => axios.post(
   },
 )
 
+const put = (url, data) => axios.post(
+  corsProxy,
+  {
+    url,
+    method: 'PUT',
+    data: JSON.stringify(data),
+  },
+  {
+    validateStatus: () => true,
+  },
+)
+
 export default ({
   post,
   get,
+  put,
 })

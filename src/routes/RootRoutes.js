@@ -5,15 +5,19 @@ import {
   Redirect,
 } from 'react-router-dom'
 
-import Dashboard from 'components/Dashboard'
+import Project from 'components/Dashboard/Project'
 import Login from 'components/Login'
 import NotFound from 'components/NotFound'
 
 const RootRoutes = () => (
   <Switch>
-    <Redirect exact from="/" to="/dashboard" />
+    <Redirect exact from="/" to="/dashboard/project" />
+
     <Route path="/login" component={Login} />
-    <Route path="/dashboard" component={Dashboard} />
+
+    <Redirect exact from="/dashboard" to="/dashboard/project" />
+    <Route path="/dashboard/project" component={Project} />
+
     <Route path="/404" component={NotFound} />
     <Redirect to="/404"/>
   </Switch>

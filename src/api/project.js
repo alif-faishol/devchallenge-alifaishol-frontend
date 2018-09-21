@@ -10,7 +10,6 @@ export const getProjectsApi = () => (
       } else if (res.status === 404) {
         throw new Error('Not Found')
       } else {
-        console.log(res.data.values.map(item => item.id))
         return res.data.values.map(item => item.id)
       }
     })
@@ -36,7 +35,30 @@ export const getProjectsApi = () => (
             }),
         )
 
+        const comment = await corsProxy.get(
+          `${baseURL}/rest/agile/1.0/board/${boardId}/properties/alifaishol-comment`,
+        )
+          .then(({ data }) => {
+            if ('erros' in data) {
+              return null
+            }
+            return data.value ? data.value : null
+          })
+
+        const status = await corsProxy.get(
+          `${baseURL}/rest/agile/1.0/board/${boardId}/properties/alifaishol-status`,
+        )
+          .then(({ data }) => {
+            if ('erros' in data) {
+              return 'In Queue'
+            }
+            return data.value ? data.value : 'In Queue'
+          })
+
         return ({
+          ...projectDetail,
+          comment,
+          status,
           roles,
           sprint: await corsProxy.get(
             `${baseURL}/rest/agile/1.0/board/${boardId}/sprint`,
@@ -47,7 +69,6 @@ export const getProjectsApi = () => (
       })
     ))
     .then(promises => Promise.all(promises))
-    .catch(err => console.log(err))
 )
 
 export default {

@@ -3,6 +3,7 @@ import {
   put,
   call,
 } from 'redux-saga/effects'
+import { push } from 'connected-react-router'
 
 import reduxAsyncTypes from 'helpers/reduxAsyncTypes'
 import { getProjectsApi } from 'api/project'
@@ -47,7 +48,11 @@ function* getProjectsSaga() {
     const response = yield call(getProjectsApi)
     yield put({ type: GET_PROJECTS.SUCCESS, payload: response })
   } catch (e) {
-    yield put({ type: GET_PROJECTS.ERROR, payload: e })
+    if (e.message === 'Unauthorized') {
+      yield put(push('/login'))
+    } else {
+      yield put({ type: GET_PROJECTS.ERROR, payload: e })
+    }
   }
 }
 
