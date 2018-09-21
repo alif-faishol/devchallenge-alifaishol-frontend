@@ -10,19 +10,24 @@
 2. Clone repo:
 
 ```
-git clone https://github.com/alif-faishol/devchallenge-alifaishol-frontend
+$ git clone https://github.com/alif-faishol/devchallenge-alifaishol-frontend
 ```
 
-3. Edit `.env`. Pastikan alamat API untuk backend dan JIRA sudah sesuai.
-
-4. Instal *dependency*:
-
+3. Masuk ke folder repo:
 ```
-yarn install
+$ cd devchallenge-alifaishol-frontend
 ```
 
-5. Jalankan development server:
+4. Edit `.env`. Pastikan alamat API untuk backend dan JIRA sudah sesuai.
+
+5. Instal *dependency*:
 
 ```
-yarn start
+$ yarn install
+```
+
+6. Jalankan development server:
+
+```
+$ yarn start
 ```
