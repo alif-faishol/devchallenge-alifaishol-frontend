@@ -11,7 +11,7 @@ const LOGIN_USER = reduxAsyncTypes('telkomcodex/auth/LOGIN_USER')
 
 const reducer = (state = {
   loggedIn: false,
-  isLogingIn: false,
+  isLoggingIn: false,
   error: null,
   userData: null,
 }, action = {}) => {
@@ -19,12 +19,12 @@ const reducer = (state = {
     case LOGIN_USER.REQUEST:
       return {
         ...state,
-        isLogingIn: true,
+        isLoggingIn: true,
       }
     case LOGIN_USER.SUCCESS:
       return {
         ...state,
-        isLogingIn: false,
+        isLoggingIn: false,
         loggedIn: true,
         error: null,
         userData: action.payload,
@@ -33,7 +33,7 @@ const reducer = (state = {
       return {
         ...state,
         loggedIn: false,
-        isLogingIn: false,
+        isLoggingIn: false,
         error: action.payload,
       }
     default:
