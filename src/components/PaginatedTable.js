@@ -112,6 +112,15 @@ class PaginatedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value })
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      this.keys = Object.keys(this.state.rows[0])
+      this.setState({
+        rows: this.props.data,
+      })
+    }
+  }
+
   keys = Object.keys(this.state.rows[0])
 
   render() {
