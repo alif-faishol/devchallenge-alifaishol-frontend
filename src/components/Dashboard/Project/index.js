@@ -37,7 +37,7 @@ class Project extends React.Component {
     Unit: '-',
     Stakeholder: item.lead.name,
     Sprint: item.sprint.length,
-    Status: <ProjectStatus status={item.status} />,
+    Status: <ProjectStatus boardId={item.boardId} status={item.status} />,
   }))
 
   render() {

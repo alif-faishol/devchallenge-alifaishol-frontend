@@ -1,4 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
+import { getProjectsAction } from 'state/dashboard/project'
+
+import { changeProjectStatusApi } from 'api/project'
 
 import Button from '@material-ui/core/Button'
 import Menu from '@material-ui/core/Menu'
@@ -8,6 +13,12 @@ import Icon from '@material-ui/core/Icon'
 class ProjectStatus extends React.Component {
   state = {
     anchorEl: null,
+  }
+
+  handleChange = async (status) => {
+    const { getProjects, boardId } = this.props
+    const response = await changeProjectStatusApi(boardId, status)
+    getProjects()
   }
 
   render() {
@@ -65,7 +76,7 @@ class ProjectStatus extends React.Component {
         >
           <MenuItem
             onClick={() => {
-              // handleSelect
+              this.handleChange('In Queue')
               this.setState({
                 anchorEl: null,
               })
@@ -75,7 +86,7 @@ class ProjectStatus extends React.Component {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              // handleSelect
+              this.handleChange('On Going')
               this.setState({
                 anchorEl: null,
               })
@@ -85,7 +96,7 @@ class ProjectStatus extends React.Component {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              // handleSelect
+              this.handleChange('Complete')
               this.setState({
                 anchorEl: null,
               })
@@ -95,7 +106,7 @@ class ProjectStatus extends React.Component {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              // handleSelect
+              this.handleChange('Rejected')
               this.setState({
                 anchorEl: null,
               })
@@ -109,4 +120,8 @@ class ProjectStatus extends React.Component {
   }
 }
 
-export default ProjectStatus
+const mapDispatchToProps = {
+  getProjects: getProjectsAction,
+}
+
+export default connect(null, mapDispatchToProps)(ProjectStatus)

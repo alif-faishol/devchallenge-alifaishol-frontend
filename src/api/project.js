@@ -71,6 +71,21 @@ export const getProjectsApi = () => (
     .then(promises => Promise.all(promises))
 )
 
+export const changeProjectStatusApi = (boardId, status) => (
+  corsProxy.put(
+    `${baseURL}/rest/agile/1.0/board/${boardId}/properties/alifaishol-status`,
+    status,
+  )
+    .then((res) => {
+      if (res.status === 201 || res.status === 200) {
+        return 'Status updated successfully'
+      }
+      throw new Error('There\'s a problem')
+    })
+
+)
+
 export default {
   getProjectsApi,
+  changeProjectStatusApi,
 }
