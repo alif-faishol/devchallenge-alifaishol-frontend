@@ -42,7 +42,7 @@ export const getProjectsApi = () => (
             if ('erros' in data) {
               return null
             }
-            return data.value ? data.value : null
+            return data.value ? data.value : 'There is no comment.'
           })
 
         const status = await corsProxy.get(

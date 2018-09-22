@@ -231,6 +231,24 @@ class TeamPerformance extends React.Component {
                       : 'Select a project first'
                     }
                   />
+                  {selectedProject && selectedProject.activeSprint && [
+                  <InfoText
+                    key="sprint-start"
+                    title="Active Sprint Start Date"
+                    content={selectedProject
+                      ? (new Date(selectedProject.activeSprint.startDate)).toDateString()
+                      : 'Select a project first'
+                    }
+                  />,
+                  <InfoText
+                    key="sprint-end"
+                    title="Active Sprint End Date"
+                    content={selectedProject
+                      ? (new Date(selectedProject.activeSprint.endDate)).toDateString()
+                      : 'Select a project first'
+                    }
+                  />,
+                  ]}
                 </Grid>
               </div>
               <div
