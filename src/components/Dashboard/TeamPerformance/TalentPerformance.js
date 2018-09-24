@@ -12,6 +12,7 @@ import PaginatedTable from 'components/PaginatedTable'
 const styles = theme => ({
   paper: {
     width: '100%',
+    overflowX: 'auto',
     margin: theme.spacing.unit * 2,
     backgroundColor: 'white',
     minHeight: 285,
