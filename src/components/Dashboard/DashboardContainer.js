@@ -13,13 +13,14 @@ const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.secondary,
     width: '100%',
-    minHeight: '100%',
+    height: '100%',
     display: 'flex',
   },
   childrenContainer: {
     flexGrow: 1,
     animation: 'fadeIn 0.3s ease-out',
     position: 'relative',
+    overflow: 'auto',
   },
   '@keyframes fadeIn': {
     from: {
@@ -33,6 +34,7 @@ const styles = theme => ({
   },
   drawer: {
     backgroundColor: 'white !important',
+    overflow: 'auto',
     position: 'relative',
     width: 250,
   },

@@ -8,7 +8,7 @@ import TalentPerformance from './TalentPerformance'
 
 const TeamPerformance = () => (
   <DashboardContainer
-    active="team-performance"
+    activeMenu="team-performance"
   >
     <Grid
       container
