@@ -17,7 +17,7 @@ class ProjectStatus extends React.Component {
 
   handleChange = async (status) => {
     const { getProjects, boardId } = this.props
-    const response = await changeProjectStatusApi(boardId, status)
+    await changeProjectStatusApi(boardId, status)
     getProjects()
   }
 
