@@ -5,8 +5,6 @@ import { getTalentPointAction } from 'state/dashboard/talent'
 
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
 
 import Loading from 'components/Loading'
 import PaginatedTable from 'components/PaginatedTable'
@@ -77,20 +75,10 @@ class TalentPerformance extends React.Component {
         elevation={1}
         className={ classes.paper }
       >
-        <CardContent>
-          <Typography
-            variant="title"
-            style={{
-              marginBottom: 25,
-              marginTop: 10,
-            }}
-          >
-            Best Talent Performance
-          </Typography>
-          <PaginatedTable
-            data={this.prepareTableData(talentPoint)}
-          />
-        </CardContent>
+        <PaginatedTable
+          title="Best Talent Performance"
+          data={this.prepareTableData(talentPoint)}
+        />
       </Paper>
     )
   }
